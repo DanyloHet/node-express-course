@@ -25,23 +25,22 @@ const getBody = (req, callback) => {
 const phrase = {
   start: "Enter something below.",
   filled: "Thank you, here is your list max 2 availible items.",
-  guess: "Nothing was entered or list is full. Guess a number between 1 and 5 to start again",
+  guess:
+    "Nothing was entered or list is full. Guess a number between 1 and 5 to start again",
   guessed: "You guessed the secret number!",
-  wrongGuess: "Wrong guess. Try again."
-}
+  wrongGuess: "Wrong guess. Try again.",
+};
 const wrongUrl = `<h1>Oops!</h1><p>We can't seem to find the page you are looking for</p><a href="/">back home</a>`;
 const visibility = {
-  visible: 'display: block;',
-  hidden: 'display: none'
-}
+  visible: "display: block;",
+  hidden: "display: none",
+};
 
 let title = phrase.start;
 let data = [];
 let itemtList = "";
 let defaultFormStyle = visibility.visible;
 let secretFormStyle = visibility.hidden;
-
-
 
 // here, you can change the form below to modify the input fields and what is displayed.
 // This is just ordinary html with string interpolation.
@@ -83,7 +82,7 @@ const server = http.createServer((req, res) => {
       if (body["text"]) {
         title = phrase.filled;
         data.push(body["text"]);
-        itemtList = data.map(item => `<li>${item}</li>`).join('');
+        itemtList = data.map((item) => `<li>${item}</li>`).join("");
       }
       if (!body["text"] || data.length > 2) {
         title = phrase.guess;
@@ -100,8 +99,7 @@ const server = http.createServer((req, res) => {
             defaultFormStyle = visibility.visible;
             secretFormStyle = visibility.hidden;
             title = phrase.start;
-          }
-          else {
+          } else {
             title = phrase.wrongGuess;
           }
         }
@@ -112,11 +110,13 @@ const server = http.createServer((req, res) => {
       });
       res.end();
     });
-  }
-  else {
+  } else {
     res.end(form());
   }
 });
 
+server.on("request", (req) => {
+  console.log("event received: ", req.method, req.url);
+});
 server.listen(3000);
 console.log("The server is listening on port 3000.");
