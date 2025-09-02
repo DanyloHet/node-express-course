@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Furniture Store</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    #list { margin-top: 20px; }
+    .product { border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; }
+  </style>
+</head>
+<body>
+  <h1>Products</h1>
+  <button id="getAllProducts">Load All Products</button>
+  <div id="list"></div>
+
+  <script>
+    document.getElementById('getAllProducts').addEventListener('click', () => {
+      fetch('/api/v1/products')
+        .then(res => res.json())
+        .then(data => {
+          const container = document.getElementById('list');
+          container.innerHTML = '';
+          data.forEach((product) => {
+            const div = document.createElement('div');
+            div.className = 'product';
+            div.innerHTML = `<strong>${product.name}</strong><br>Price: $${product.price}`;
+            container.appendChild(div);
+          });
+        })
+        .catch(err => console.error('Fetch error:', err));
+    });
+
+  </script>
+</body>
+</html>
