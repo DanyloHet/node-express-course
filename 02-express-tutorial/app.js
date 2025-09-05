@@ -1,10 +1,21 @@
 console.log("Express Tutorial");
 const express = require("express");
-
 const app = express();
 const { products } = require("./data");
+const PeopleRouter = require("./routes/PeopleRouter");
+
+//middleware function
+const logger = (req, res, next) => {
+  console.log(`${req.method} ${req.url} - ${new Date().toISOString()}`);
+  next();
+};
 // setup static and middleware
-app.use(express.static("./public"));
+app.use(logger);
+app.use(express.json()); // parse JSON
+app.use(express.urlencoded({ extended: false })); //parse URL-encoded data
+//app.use(express.static("./public"));
+app.use(express.static("./methods-public"));
+app.use("/api/v1/people", PeopleRouter);
 app.get("/api/v1/test", (req, res) => {
   res.json({ message: "It worked!" });
 });
