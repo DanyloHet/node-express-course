@@ -6,8 +6,8 @@ const connectDB = require('./db/connect');
 require("dotenv").config();
 app.use(express.json());
 
-app.get("/hello", (res, req) => {
-  req.send("Task Manager App");
+app.get("/hello", (req, res) => {
+  res.send("Task Manager App");
 });
 
 app.use("/api/v1/tasks", tasks);
