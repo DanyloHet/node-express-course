@@ -18,7 +18,7 @@ function login(req, res, next) {
     return next(error);
   }
 
-  // Генерируем токен
+  // Generating token
   const token = jwt.sign({ id: user.id, username: user.username }, process.env.SECRET_KEY, { expiresIn: '24h' });
 
   res.json({ token });
